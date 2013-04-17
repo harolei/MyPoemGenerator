@@ -1,4 +1,4 @@
-package com.myPoemGenerator.mvc;
+package com.myPoemGenerator.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -10,13 +10,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 @Controller
-@RequestMapping("/page3.htm")
-public class PageThreeController {
+@RequestMapping("/page2.htm")
+public class PageTwoController{
+
     @RequestMapping(method = RequestMethod.POST)
-    public String printPage3(ModelMap model,@RequestParam("secondSentence")String secondSentence,HttpServletRequest request) {
+    public String printPage2(ModelMap model,@RequestParam("firstSentence")String firstSentence,HttpServletRequest request) {
         HttpSession session = request.getSession();
-        session.setAttribute("secondSentence",secondSentence);
-        model.addAttribute("message", "Please enter the third sentence of the poem:");
-        return "page3";
+        session.setAttribute("firstSentence",firstSentence);
+        model.addAttribute("message", "Please enter the second sentence of the poem:");
+        return "page2";
     }
+
 }

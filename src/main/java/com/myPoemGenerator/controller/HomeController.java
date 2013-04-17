@@ -1,4 +1,4 @@
-package com.myPoemGenerator.mvc;
+package com.myPoemGenerator.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;

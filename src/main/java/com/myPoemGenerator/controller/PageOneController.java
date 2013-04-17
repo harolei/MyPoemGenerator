@@ -1,4 +1,4 @@
-package com.myPoemGenerator.mvc;
+package com.myPoemGenerator.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -11,7 +11,8 @@ import javax.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/page1.htm")
-public class PageOneController {
+public class PageOneController{
+
     @RequestMapping(method = RequestMethod.GET)
     public String printPage1(ModelMap model) {
         model.addAttribute("message", "Welcome to the first page!");
