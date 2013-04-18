@@ -1,10 +1,21 @@
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+
 <html>
 <body>
-<p><h2>${message}</h2></p>
+<h2>${message}</h2>
 
-<form method="post" action="/MyPoemGenerator/page2.htm">
-<input type="text" name="firstSentence"/>
-<input type="submit" value="Next Sentence"/>
-</form>
+
+<form:form method="POST" action="/MyPoemGenerator/page2.htm" commandName="PoemText">
+<table>
+<tr>
+<td><form:input path="firstSentence"/></td>
+</tr>
+
+<tr>
+<td><input type="submit" name="next" value="Next"/></td>
+</tr>
+</table>
+</form:form>
+
 </body>
 </html>
