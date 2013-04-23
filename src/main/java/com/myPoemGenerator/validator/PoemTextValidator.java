@@ -23,7 +23,7 @@ public class PoemTextValidator implements Validator {
                                                   errorInfo);
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors,"thirdSentence",
-                                                 "required.forthSentence",
+                                                 "required.thirdSentence",
                                                   errorInfo);
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors,"forthSentence",

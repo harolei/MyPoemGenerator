@@ -6,6 +6,12 @@
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
     <context:component-scan base-package="com.myPoemGenerator.controller"/>
+
+    <bean class="com.myPoemGenerator.validator.FirstSentenceValidator" />
+    <bean class="com.myPoemGenerator.validator.SecondSentenceValidator" />
+    <bean class="com.myPoemGenerator.validator.ThirdSentenceValidator" />
+    <bean class="com.myPoemGenerator.validator.ForthSentenceValidator" />
+
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/WEB-INF/pages/"/>
         <property name="suffix" value=".jsp"/>

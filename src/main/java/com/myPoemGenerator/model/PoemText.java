@@ -6,16 +6,6 @@ public class PoemText {
     String thirdSentence;
     String forthSentence;
 
-    String sentenceText;
-
-    public String getSentenceText() {
-        return sentenceText;
-    }
-
-    public void setSentenceText(String sentenceText) {
-        this.sentenceText = sentenceText;
-    }
-
     public String getFirstSentence() {
         return firstSentence;
     }

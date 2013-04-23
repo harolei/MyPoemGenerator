@@ -1,11 +1,24 @@
 package com.myPoemGenerator.validator;
 
-/**
- * Created with IntelliJ IDEA.
- * User: twer
- * Date: 4/18/13
- * Time: 1:54 PM
- * To change this template use File | Settings | File Templates.
- */
-public class secondSentenceValidator {
+import com.myPoemGenerator.model.PoemText;
+import org.springframework.validation.Errors;
+import org.springframework.validation.ValidationUtils;
+import org.springframework.validation.Validator;
+
+public class SecondSentenceValidator implements Validator {
+    @Override
+    public boolean supports(Class<?> aClass) {
+        return PoemText.class.isAssignableFrom(aClass);
+    }
+
+    @Override
+    public void validate(Object o, Errors errors) {
+        String errorInfo = "Please enter the sentence of the poem!";
+
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors,"secondSentence",
+                "required.secondSentence",
+                errorInfo);
+
+    }
+
 }
