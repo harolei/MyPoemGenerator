@@ -21,12 +21,12 @@
 <h2>${message}</h2>
 
 
-<form:form method="POST" action="/MyPoemGenerator/page2" commandName="PoemText">
+<form:form method="POST" action="/MyPoemGenerator/page2" commandName="PoemSentence">
 <form:errors path="*" cssClass="errorblock" element="div" />
 <table>
 <tr>
-<td><form:input path="secondSentence" /></td>
-<td><form:errors path="secondSentence" cssClass="error" /></td>
+<td><form:input path="sentence" /></td>
+<td><form:errors path="sentence" cssClass="error" /></td>
 </tr>
 
 <tr>
@@ -36,7 +36,7 @@
 </table>
 </form:form>
 
-<form:form method="GET" action="/MyPoemGenerator/page1" commandName="PoemText">
+<form:form method="GET" action="/MyPoemGenerator/page1" commandName="PoemSentence">
 <input type="submit" name="previous" value="Previous"/>
 </form:form>
 

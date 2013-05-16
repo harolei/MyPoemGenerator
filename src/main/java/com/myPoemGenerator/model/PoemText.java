@@ -1,10 +1,24 @@
 package com.myPoemGenerator.model;
 
+import com.myPoemGenerator.validator.FirstSentenceValidator;
+import com.myPoemGenerator.validator.ForthSentenceValidator;
+import com.myPoemGenerator.validator.SecondSentenceValidator;
+import com.myPoemGenerator.validator.ThirdSentenceValidator;
+import org.hibernate.validator.constraints.NotEmpty;
+
 public class PoemText {
-    String firstSentence;
-    String secondSentence;
-    String thirdSentence;
-    String forthSentence;
+
+    @NotEmpty(groups=FirstSentenceValidator.class)
+    private String firstSentence;
+
+    @NotEmpty(groups=SecondSentenceValidator.class)
+    private String secondSentence;
+
+    @NotEmpty(groups=ThirdSentenceValidator.class)
+    private String thirdSentence;
+
+    @NotEmpty(groups=ForthSentenceValidator.class)
+    private String forthSentence;
 
     public String getFirstSentence() {
         return firstSentence;

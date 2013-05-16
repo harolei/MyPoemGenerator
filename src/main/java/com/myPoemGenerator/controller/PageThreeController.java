@@ -1,8 +1,6 @@
 package com.myPoemGenerator.controller;
 
-import com.myPoemGenerator.model.PoemText;
-import com.myPoemGenerator.validator.ThirdSentenceValidator;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.myPoemGenerator.model.PoemSentence;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -13,26 +11,29 @@ import org.springframework.web.bind.support.SessionStatus;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
+
+//import com.myPoemGenerator.validator.ThirdSentenceValidator;
 
 @Controller
 @RequestMapping("/page3")
 public class PageThreeController {
 
-    ThirdSentenceValidator thirdSentenceValidator;
-
-    @Autowired
-    public PageThreeController(ThirdSentenceValidator thirdSentenceValidator) {
-        this.thirdSentenceValidator = thirdSentenceValidator;
-    }
+//    ThirdSentenceValidator thirdSentenceValidator;
+//
+//    @Autowired
+//    public PageThreeController(ThirdSentenceValidator thirdSentenceValidator) {
+//        this.thirdSentenceValidator = thirdSentenceValidator;
+//    }
 
     @RequestMapping(method = RequestMethod.POST)
-    public String validatePage3(ModelMap model,
-                             @ModelAttribute("PoemText") PoemText poemText,
+    public String handlePost(ModelMap model,
+                             @ModelAttribute("PoemSentence") @Valid PoemSentence poemSentence,
                              BindingResult result, SessionStatus status,
                              HttpServletRequest request) {
 
         HttpSession session = request.getSession();
-        thirdSentenceValidator.validate(poemText, result);
+        //thirdSentenceValidator.validate(poemText, result);
 
         if (result.hasErrors()) {
             //if validator failed
@@ -40,19 +41,19 @@ public class PageThreeController {
             return "page3";
         } else {
             status.setComplete();
-            session.setAttribute("thirdSentence", poemText.getThirdSentence());
+            session.setAttribute("thirdSentence", poemSentence.getSentence());
             return "redirect:page4";
         }
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public String printPage3(ModelMap model,
-                               HttpServletRequest request,
-                               @ModelAttribute("PoemText") PoemText poemText) {
+    public String onPage(ModelMap model,
+                         HttpServletRequest request,
+                         @ModelAttribute("PoemSentence") PoemSentence poemSentence) {
         HttpSession session = request.getSession();
         model.addAttribute("message", "Please enter the third sentence of the poem:");
         if(session.getAttribute("thirdSentence")!=null){
-            poemText.setThirdSentence((String)session.getAttribute("thirdSentence"));
+            poemSentence.setSentence((String) session.getAttribute("thirdSentence"));
         }
         return "page3";
     }

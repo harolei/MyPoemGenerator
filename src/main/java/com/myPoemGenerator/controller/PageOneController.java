@@ -1,8 +1,9 @@
 package com.myPoemGenerator.controller;
 
-import com.myPoemGenerator.model.PoemText;
-import com.myPoemGenerator.validator.FirstSentenceValidator;
-import org.springframework.beans.factory.annotation.Autowired;
+//import com.myPoemGenerator.validator.FirstSentenceValidator;
+//import org.springframework.beans.factory.annotation.Autowired;
+
+import com.myPoemGenerator.model.PoemSentence;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -13,37 +14,41 @@ import org.springframework.web.bind.support.SessionStatus;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
+
+//import com.myPoemGenerator.model.PoemSentence;
 
 @Controller
 @RequestMapping("/page1")
 public class PageOneController{
 
-    FirstSentenceValidator firstSentenceValidator;
+    //FirstSentenceValidator firstSentenceValidator;
 
-    @Autowired
-    public PageOneController(FirstSentenceValidator firstSentenceValidator){
-        this.firstSentenceValidator = firstSentenceValidator;
-    }
+//    @Autowired
+//    public PageOneController(FirstSentenceValidator firstSentenceValidator){
+//        this.firstSentenceValidator = firstSentenceValidator;
+//    }
 
     @RequestMapping(method = RequestMethod.GET)
-    public String printPage1(ModelMap model,
-                               @ModelAttribute("PoemText") PoemText poemText,
-                               HttpServletRequest request) {
+    public String onPage(ModelMap model,
+                         @ModelAttribute("PoemSentence") PoemSentence poemSentence,
+                         HttpServletRequest request) {
         HttpSession session = request.getSession();
         if(session.getAttribute("firstSentence")!=null){
-            poemText.setFirstSentence((String) session.getAttribute("firstSentence"));
+            poemSentence.setSentence((String) session.getAttribute("firstSentence"));
+            //poemText.setSentence((String) session.getAttribute("firstSentence"));
         }
         model.addAttribute("message", "Please enter the first sentence of the poem:");
         return "page1";
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public String validatePage1(ModelMap model,
-                             @ModelAttribute("PoemText") PoemText poemText,
+    public String handlePost(ModelMap model,
+                             @Valid @ModelAttribute("PoemSentence") PoemSentence poemSentence,
                              BindingResult result, SessionStatus status,
                              HttpServletRequest request) {
         HttpSession session = request.getSession();
-        firstSentenceValidator.validate(poemText, result);
+        //firstSentenceValidator.validate(poemText, result);
 
         if (result.hasErrors()) {
             //if validator failed
@@ -52,7 +57,7 @@ public class PageOneController{
         } else {
             status.setComplete();
             //form success
-            session.setAttribute("firstSentence", poemText.getFirstSentence());
+            session.setAttribute("firstSentence", poemSentence.getSentence());
             return "redirect:page2";
         }
     }

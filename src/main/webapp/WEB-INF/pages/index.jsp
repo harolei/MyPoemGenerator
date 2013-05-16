@@ -12,5 +12,13 @@
 </table>
 </form:form>
 
+<form:form method="GET" action="/MyPoemGenerator/weather">
+<table>
+<tr>
+<td><input type="submit" name="weather" value="Search Weather"/></td>
+</tr>
+</table>
+</form:form>
+
 </body>
 </html>

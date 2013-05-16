@@ -21,12 +21,12 @@
 <h2>${message}</h2>
 
 
-<form:form method="POST" action="/MyPoemGenerator/page1" commandName="PoemText">
+<form:form method="POST" action="/MyPoemGenerator/page1" commandName="PoemSentence">
 <form:errors path="*" cssClass="errorblock" element="div" />
 <table>
 <tr>
-<td><form:input path="firstSentence"/></td>
-<td><form:errors path="firstSentence" cssClass="error" /></td>
+<td><form:input path="sentence"/></td>
+<td><form:errors path="sentence" cssClass="error" /></td>
 </tr>
 
 <tr>
