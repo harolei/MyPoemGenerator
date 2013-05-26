@@ -11,30 +11,38 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 public class WeatherSearchControllerHelper {
-    private static String SERVICES_HOST = "www.webxml.com.cn";
-    private static String WEATHER_SERVICES_URL = "http://webservice.webxml.com.cn/WebServices/WeatherWS.asmx/";
-    private static String PROVINCE_CODE_URL = WEATHER_SERVICES_URL + "getRegionProvince";
-    private static String CITY_CODE_URL = WEATHER_SERVICES_URL + "getSupportCityString?theRegionCode=";
-    private static String WEATHER_QUERY_URL = WEATHER_SERVICES_URL + "getWeather?theUserID=&theCityCode=";
+    private String provQueryURL;
+    private String cityQueryURL;
+    private String serviceHost;
+    private String weatherQueryURL;
 
-    public List<Province> getSupportProvince(){
+
+
+    public WeatherSearchControllerHelper() throws IOException {
+        provQueryURL = getProperties().getProperty("PROVINCE_CODE_URL");
+        cityQueryURL = getProperties().getProperty("CITY_CODE_URL");
+        serviceHost = getProperties().getProperty("SERVICES_HOST");
+        weatherQueryURL = getProperties().getProperty("WEATHER_QUERY_URL");
+
+    }
+
+    public List<Province> getSupportProvince() throws IOException {
         List<Province> provinces = new ArrayList<Province>();
         Document document;
         DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
         documentBuilderFactory.setNamespaceAware(true);
         try {
             DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
-            InputStream inputStream = getSoapInputStream(PROVINCE_CODE_URL);
+            InputStream inputStream = getSoapInputStream(provQueryURL);
             document = documentBuilder.parse(inputStream);
             NodeList nodeList = document.getElementsByTagName("string");
             int len = nodeList.getLength();
@@ -57,14 +65,14 @@ public class WeatherSearchControllerHelper {
         return provinces;
     }
 
-    public List<City> getSupportCity(String provinceCode){
+    public List<City> getSupportCity(String provinceCode) throws IOException {
         List<City> cities = new ArrayList<City>();
         Document doc;
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         dbf.setNamespaceAware(true);
         try{
             DocumentBuilder db = dbf.newDocumentBuilder();
-            InputStream is = getSoapInputStream(CITY_CODE_URL + provinceCode);
+            InputStream is = getSoapInputStream(cityQueryURL + provinceCode);
             doc = db.parse(is);
             NodeList nl = doc.getElementsByTagName("string");
             int len = nl.getLength();
@@ -90,12 +98,12 @@ public class WeatherSearchControllerHelper {
         return cities;
     }
 
-    public static InputStream getSoapInputStream(String url){
+    private InputStream getSoapInputStream(String url) throws IOException {
         InputStream inputStream = null;
         try{
             URL urlObj = new URL(url);
             URLConnection urlConn = urlObj.openConnection();
-            urlConn.setRequestProperty("Host", SERVICES_HOST);
+            urlConn.setRequestProperty("Host", serviceHost);
             urlConn.connect();
             inputStream = urlConn.getInputStream();
         }catch(MalformedURLException e){
@@ -106,14 +114,14 @@ public class WeatherSearchControllerHelper {
         return inputStream;
     }
 
-    public static List<String> getWeather(String cityCode){
+    public List<String> getWeather(String cityCode) throws IOException {
         List<String> weatherList = new ArrayList<String>();
         Document document;
         DocumentBuilderFactory documentBF = DocumentBuilderFactory.newInstance();
         documentBF.setNamespaceAware(true);
         try{
             DocumentBuilder documentB = documentBF.newDocumentBuilder();
-            InputStream inputStream = getSoapInputStream(WEATHER_QUERY_URL + cityCode);
+            InputStream inputStream = getSoapInputStream(weatherQueryURL + cityCode);
             document = documentB.parse(inputStream);
             NodeList nl = document.getElementsByTagName("string");
             int len = nl.getLength();
@@ -136,6 +144,13 @@ public class WeatherSearchControllerHelper {
             e.printStackTrace();
         }
         return weatherList;
+    }
+
+    private Properties getProperties() throws IOException {
+        Properties properties = new Properties();
+        File f = new File("webServiceURL.properties");
+        properties.load(new FileInputStream(f));
+        return properties;
     }
 
 }

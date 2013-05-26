@@ -12,23 +12,28 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 @Controller
 @RequestMapping("/weather")
 public class WeatherSearchController {
-    private WeatherSearchControllerHelper helper = new WeatherSearchControllerHelper();
+    private WeatherSearchControllerHelper helper;
+
+    public WeatherSearchController() throws IOException {
+        helper = new WeatherSearchControllerHelper();
+    }
 
     @RequestMapping(method = RequestMethod.GET)
-    public String getWeatherPage(HttpServletResponse response, ModelMap model){
+    public String getWeatherPage(HttpServletResponse response, ModelMap model) throws IOException {
         List<Province> provs = helper.getSupportProvince();
         model.addAttribute("provs",provs);
         return "searchWeather";
     }
 
     @RequestMapping(params = "prov",method = RequestMethod.GET)
-    public void getCity(HttpServletRequest request,HttpServletResponse response){
+    public void getCity(HttpServletRequest request,HttpServletResponse response) throws IOException {
         String provName = request.getParameter("prov");
         ArrayList<City> list= (ArrayList<City>) helper.getSupportCity(provName);
         try{
@@ -50,7 +55,7 @@ public class WeatherSearchController {
     }
 
     @RequestMapping(params = "city",method = RequestMethod.GET)
-    public void getWeather(HttpServletRequest request,HttpServletResponse response){
+    public void getWeather(HttpServletRequest request,HttpServletResponse response) throws IOException {
         String cityName = request.getParameter("city");
         ArrayList<String> list= (ArrayList<String>) helper.getWeather(cityName);
         try{
